@@ -5,16 +5,16 @@
  */
 export type ProgressFunction = (loaded: number, total: number) => void;
 
-export type RequestMethod = "PUT"|"POST"|"GET"|"DELETE"|"PATCH";
+export type RequestMethod = 'PUT'|'POST'|'GET'|'DELETE'|'PATCH';
 
 /**
  * Type to represent an object similar to an XMLHttpRequest object
  */
 export type XmlHttpRequestLike = {
     open: (method: string, url: string) => void,
-    onabort?: ((this: XMLHttpRequest, ev: ProgressEvent<EventTarget>) => any) | null, // eslint-disable-line @typescript-eslint/no-explicit-any
-    onerror?: ((this: XMLHttpRequest, ev: ProgressEvent<EventTarget>) => any) | null, // eslint-disable-line @typescript-eslint/no-explicit-any
-    onreadystatechange: ((this: XMLHttpRequest, ev: Event) => any) | null, // eslint-disable-line @typescript-eslint/no-explicit-any
+    onabort?: ((this: XMLHttpRequest, ev: ProgressEvent<EventTarget>) => any) | null,  
+    onerror?: ((this: XMLHttpRequest, ev: ProgressEvent<EventTarget>) => any) | null,  
+    onreadystatechange: ((this: XMLHttpRequest, ev: Event) => any) | null,  
     send: (data?: Document | XMLHttpRequestBodyInit | null | undefined) => void,
     setRequestHeader: (header: string, value: string) => void,
     readyState: number,
@@ -47,6 +47,11 @@ export class Uploader {
     private url: string | URL;
     private method: RequestMethod;
 
+    /**
+     * Create a new uploader instance
+     * @param url The URL to bind the uploader to
+     * @param method The request method to use
+     */
     constructor(url: string | URL, method: RequestMethod) {
         this.url = url;
         this.method = method;
@@ -74,7 +79,7 @@ export class Uploader {
             request.upload.onprogress = (e: ProgressEvent) => {
                 if(!e.lengthComputable) this.onProgressCallback?.(e.loaded, 0);
                 this.onProgressCallback?.(e.loaded, e.total);
-            }
+            };
             request.onreadystatechange = () => {
                 if (request.readyState === 4) {
                     if (request.status === 200) {

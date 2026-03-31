@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals
 import { Uploader } from './UploadControl';
 import type { XmlHttpRequestLike } from './UploadControl';
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 class MockXhr implements XmlHttpRequestLike {
     open: (method: string, url: string) => void = jest.fn();
     onabort?: ((this: XMLHttpRequest, ev: ProgressEvent<EventTarget>) => any) = jest.fn();
@@ -14,7 +15,7 @@ class MockXhr implements XmlHttpRequestLike {
     responseText: string = JSON.stringify({error: 0});
     upload = {
         onprogress: jest.fn()
-    }
+    };
 }
 
 describe('UploadControl', () => {
@@ -23,12 +24,12 @@ describe('UploadControl', () => {
 
     beforeEach(() => {
         mockXhr = new MockXhr();
-        oldXMLHttpRequest = <any>window.XMLHttpRequest; // eslint-disable-line @typescript-eslint/no-explicit-any
-        window.XMLHttpRequest = <any>(jest.fn(() => mockXhr)); // eslint-disable-line @typescript-eslint/no-explicit-any
+        oldXMLHttpRequest = <any>window.XMLHttpRequest;  
+        window.XMLHttpRequest = <any>(jest.fn(() => mockXhr));  
     });
 
     afterEach(() => {
-        window.XMLHttpRequest = <any>oldXMLHttpRequest; // eslint-disable-line @typescript-eslint/no-explicit-any
+        window.XMLHttpRequest = <any>oldXMLHttpRequest;  
         mockXhr = null;
     });
 
@@ -86,9 +87,10 @@ describe('UploadControl', () => {
         const ev: ProgressEvent = {
             loaded: 1,
             total: 2,
-            lengthComputable: true,
+            lengthComputable: true
         } as any;
         setTimeout(() => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             localMock.upload?.onprogress && localMock.upload.onprogress(ev);
         }, 500);
         setTimeout(localMock.onreadystatechange!, 1500);
